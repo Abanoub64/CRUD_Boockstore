@@ -2,11 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const Books = require("../server/modules/books");
-const cros = require("cors");
+const cors = require("cors");
 const BooksRoutes = require("../server/routes/booksRoutes");
 
 const app = express();
-app.use(cros());
 
 //middleware
 app.use(express.json());

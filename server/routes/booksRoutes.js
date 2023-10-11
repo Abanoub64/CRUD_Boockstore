@@ -1,15 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Books = require("../modules/books");
+const cors = require("cors");
+
+router.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
 
 //Route for post a new book
 router.post("/", async (req, res) => {
   try {
-    if (!req.body.title || !req.body.auther || !req.body.Pubyear) {
+    if (!req.body.title || !req.body.author || !req.body.Pubyear) {
       res.status(400).json({ error: "requred data is missing" });
     }
-    const { title, auther, Pubyear } = req.body;
-    const newBook = { title, auther, Pubyear };
+    const { title, author, Pubyear } = req.body;
+    const newBook = { title, author, Pubyear };
     const book = await Books.create(newBook);
     return res.status(200).send(book);
   } catch (error) {
@@ -38,7 +46,7 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const book = await Books.findById(id);
-    res.status(200), json(book);
+    res.json(book);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
@@ -48,7 +56,7 @@ router.get("/:id", async (req, res) => {
 //Route to update a book
 router.put("/:id", async (req, res) => {
   try {
-    if (!req.body.title || !req.body.auther || !req.body.Pubyear) {
+    if (!req.body.title || !req.body.author || !req.body.Pubyear) {
       res.status(400).json({ error: "requred data is missing" });
     }
     const { id } = req.params;
